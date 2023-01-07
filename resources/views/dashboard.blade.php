@@ -27,8 +27,8 @@
 
                     <div class="mb-3">
                     <label for="birthday">Date of Birth :</label>
-                    <input type="date" id="birthday" name="birthday">
-                    <input type="submit">
+                    <input type="date" id="birthday" name="dob">
+                    {{-- <input type="submit"> --}}
 
                     </div>
 
@@ -40,18 +40,19 @@
 
                     <div class="mb-3">
                       <label for="postcode_id" class="form-label">Postcode : </label>
+                      <h1>Tukar ni to fetch from api ?</h1>
                       <select class="form-control" id="postcode_id" name="postcode_id" required>
                     <option value="" selected>Please select your postcode</option>
-                    <option value="35000" >35000</option>
-                    <option value="50000">50000</option>
-                    <option value="80000">80000</option>
+                        <option value="35000" >35000</option>
+                        <option value="50000">50000</option>
+                        <option value="80000">80000</option>
                     </select>
 
                     </div>
 
                     <div class="mb-3">
                     <label for="state">State:</label><br>
-                    <input type="text" id="#state" name="state" disabled><br>
+                    <input type="text" id="#state" name="state" readonly><br>
 
                     </div>
 
@@ -65,24 +66,38 @@
         </div>
     </div>
 
-    <script>
-
-        
-       $postcodeToState = {
-        "80000": "Johor Bahru",
-        "50000": "Wilayah Persekutuan",
-        "35000": "Tapah"
-        };
-
-        document.getElementById("postcode_id").addEventListener("change", function() {
-        const postcode_id = this.value;
-        const state =  $postcodeToState[postcode_id];
-        if (state) {
-            document.getElementById("#state").value = state;
-        }
-        });
-
-    </script>
-
     
 </x-app-layout>
+
+<script>
+
+
+        
+    //    $postcodeToState = {
+    //     "80000": "Johor Bahru",
+    //     "50000": "Wilayah Persekutuan",
+    //     "35000": "Tapah"
+    //     };   
+
+        document.getElementById('postcode_id').addEventListener('change', function() {
+            fetchState(this.value);
+        });
+
+        async function fetchState(val) {
+            let response = await fetch('/postcode/' + val );
+      
+            if (response.status === 200) {
+                let data = await response.text();
+                let state = JSON.parse(data).data[0].state;
+                
+                if (state) {
+                    document.getElementById("#state").value = state;
+                }
+            }
+
+        }
+
+
+
+
+    </script>

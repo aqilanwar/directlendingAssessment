@@ -9,6 +9,7 @@ class Postcode extends Model
 {
     use HasFactory;
 
+    protected $table = 'postcode';
     protected $guarded = [];
 
     public function postcode(){

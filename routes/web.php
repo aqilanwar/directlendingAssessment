@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\PostcodeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/details/store', [CustomerController::class, 'storeDetails'])->name('submit');
+
+
+Route::get('/postcode/{id}', [PostcodeController::class, 'GetState']);
+Route::get('/customer', [CustomerController::class, 'GetCustomer']);
 
 require __DIR__.'/auth.php';

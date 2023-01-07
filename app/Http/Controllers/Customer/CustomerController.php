@@ -20,19 +20,20 @@ class CustomerController extends Controller
             'postcode_id' => $request->postcode_id,
             'created_at' =>  Carbon::now(),
         ]);
-
-        $postcodes = Postcode::all();
-
-       Postcode::insert([
-        'id' =>     $request->postcode_id,
-        'state' => $request->state,
-        'postcode' => $request->postcode_id,
-
-       ]);
-            
-        
+  
         return redirect()->route('dashboard');
 
     }
-    //
+
+    public function GetCustomer (){
+
+        $data = Customer::select('name' , 'dob' , 'postcode_id', 'postcode.state')
+        ->join('postcode', 'customers.postcode_id', '=', 'postcode.postcode')
+        ->get();
+
+
+        return response()->json([
+            'data' => $data->toArray(),
+         ]);
+    }
 }
